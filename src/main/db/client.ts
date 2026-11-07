@@ -7,8 +7,22 @@ import * as schema from './schema'
 
 export type AppDatabase = BetterSQLite3Database<typeof schema>
 
-let sqlite: Database.Database | null = null
-let db: AppDatabase | null = null
+export interface IDatabaseHandle {
+  db: AppDatabase
+  close: () => void
+}
+
+/** Open a SQLite database (file path or ':memory:') and apply pending migrations. */
+export function createDatabase(filename: string, migrationsFolder: string): IDatabaseHandle {
+  const sqlite = new Database(filename)
+  sqlite.pragma('journal_mode = WAL')
+  sqlite.pragma('foreign_keys = ON')
+  const db = drizzle(sqlite, { schema })
+  migrate(db, { migrationsFolder })
+  return { db, close: () => sqlite.close() }
+}
+
+let handle: IDatabaseHandle | null = null
 
 function migrationsFolder(): string {
   return app.isPackaged
@@ -16,24 +30,18 @@ function migrationsFolder(): string {
     : join(app.getAppPath(), 'src/main/db/migrations')
 }
 
-/** Open `userData/app.db` (WAL) and apply pending migrations. Call once after `app.whenReady()`. */
+/** Open `userData/app.db`. Call once after `app.whenReady()`. */
 export function initDb(): AppDatabase {
-  if (db) return db
-  sqlite = new Database(join(app.getPath('userData'), 'app.db'))
-  sqlite.pragma('journal_mode = WAL')
-  sqlite.pragma('foreign_keys = ON')
-  db = drizzle(sqlite, { schema })
-  migrate(db, { migrationsFolder: migrationsFolder() })
-  return db
+  handle ??= createDatabase(join(app.getPath('userData'), 'app.db'), migrationsFolder())
+  return handle.db
 }
 
 export function getDb(): AppDatabase {
-  if (!db) throw new Error('Database not initialised. Call initDb() first.')
-  return db
+  if (!handle) throw new Error('Database not initialised. Call initDb() first.')
+  return handle.db
 }
 
 export function closeDb(): void {
-  sqlite?.close()
-  sqlite = null
-  db = null
+  handle?.close()
+  handle = null
 }

@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "24447a2a-9d49-4845-83cf-5bf5e5db1e98",
+  "id": "9c419336-c33f-48c2-abb0-73e3903ec80f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "todos": {
-      "name": "todos",
+    "documents": {
+      "name": "documents",
       "columns": {
         "id": {
           "name": "id",
@@ -14,8 +14,156 @@
           "notNull": true,
           "autoincrement": true
         },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "title": {
           "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "text_size": {
+          "name": "text_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 16
+        },
+        "text_weight": {
+          "name": "text_weight",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'semibold'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsec') * 1000 as integer))"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsec') * 1000 as integer))"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "sheets": {
+      "name": "sheets",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "document_id": {
+          "name": "document_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "''"
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "''"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(cast(unixepoch('subsec') * 1000 as integer))"
+        }
+      },
+      "indexes": {
+        "sheets_document_idx": {
+          "name": "sheets_document_idx",
+          "columns": ["document_id", "position"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "sheets_document_id_documents_id_fk": {
+          "name": "sheets_document_id_documents_id_fk",
+          "tableFrom": "sheets",
+          "tableTo": "documents",
+          "columnsFrom": ["document_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "todo_items": {
+      "name": "todo_items",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "sheet_id": {
+          "name": "sheet_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -35,19 +183,27 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(unixepoch('subsec') * 1000)"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch('subsec') * 1000)"
+          "default": "(cast(unixepoch('subsec') * 1000 as integer))"
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
+      "indexes": {
+        "todo_items_sheet_idx": {
+          "name": "todo_items_sheet_idx",
+          "columns": ["sheet_id", "position"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "todo_items_sheet_id_sheets_id_fk": {
+          "name": "todo_items_sheet_id_sheets_id_fk",
+          "tableFrom": "todo_items",
+          "tableTo": "sheets",
+          "columnsFrom": ["sheet_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}

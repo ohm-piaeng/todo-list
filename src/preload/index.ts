@@ -1,14 +1,26 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { TODO_CHANNELS, type IAppApi } from '@shared/ipc'
+import { DOCUMENT_CHANNELS, ITEM_CHANNELS, SHEET_CHANNELS, type IAppApi } from '@shared/ipc'
 
 // Typed API exposed to the renderer as `window.api` (contract: @shared/ipc/api.ts)
 const api: IAppApi = {
-  todo: {
-    list: () => ipcRenderer.invoke(TODO_CHANNELS.list),
-    create: (input) => ipcRenderer.invoke(TODO_CHANNELS.create, input),
-    update: (input) => ipcRenderer.invoke(TODO_CHANNELS.update, input),
-    remove: (id) => ipcRenderer.invoke(TODO_CHANNELS.remove, id)
+  document: {
+    list: () => ipcRenderer.invoke(DOCUMENT_CHANNELS.list),
+    get: (id) => ipcRenderer.invoke(DOCUMENT_CHANNELS.get, id),
+    create: (input) => ipcRenderer.invoke(DOCUMENT_CHANNELS.create, input),
+    update: (input) => ipcRenderer.invoke(DOCUMENT_CHANNELS.update, input),
+    remove: (id) => ipcRenderer.invoke(DOCUMENT_CHANNELS.remove, id)
+  },
+  sheet: {
+    create: (input) => ipcRenderer.invoke(SHEET_CHANNELS.create, input),
+    update: (input) => ipcRenderer.invoke(SHEET_CHANNELS.update, input),
+    remove: (id) => ipcRenderer.invoke(SHEET_CHANNELS.remove, id)
+  },
+  item: {
+    create: (input) => ipcRenderer.invoke(ITEM_CHANNELS.create, input),
+    update: (input) => ipcRenderer.invoke(ITEM_CHANNELS.update, input),
+    remove: (id) => ipcRenderer.invoke(ITEM_CHANNELS.remove, id),
+    reorder: (input) => ipcRenderer.invoke(ITEM_CHANNELS.reorder, input)
   }
 }
 
