@@ -19,6 +19,8 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
+    // electron-vite leaves output unminified by default; minify the renderer bundle
+    build: { minify: true },
     plugins: [react(), tailwindcss()]
   }
 })
