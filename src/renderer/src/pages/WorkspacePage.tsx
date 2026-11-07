@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import type { DocumentKind, ISheet } from '@shared/notebook'
+import type { DocumentKind, ISheet, TextWeight } from '@shared/notebook'
 import {
   AddSheetButton,
   DocumentActions,
@@ -11,6 +11,7 @@ import {
   useDocumentSummaries
 } from '@renderer/features/documents'
 import { MarkdownToolbar, NoteBody, NoteEditorProvider } from '@renderer/features/note'
+import { TodoBody, TodoToolbar } from '@renderer/features/todo'
 import { WorkspaceLayout } from '@renderer/shared/ui/templates'
 
 interface ISheetRowProps {
@@ -19,13 +20,23 @@ interface ISheetRowProps {
   sheet: ISheet
   index: number
   total: number
+  textSize: number
+  textWeight: TextWeight
 }
 
 /**
  * One paper. Memoised on the sheet object: React Query's structural sharing keeps
  * untouched sheets referentially equal, so editing one page re-renders only that page.
  */
-const SheetRow = memo(function SheetRow({ documentId, kind, sheet, index, total }: ISheetRowProps) {
+const SheetRow = memo(function SheetRow({
+  documentId,
+  kind,
+  sheet,
+  index,
+  total,
+  textSize,
+  textWeight
+}: ISheetRowProps) {
   return (
     <SheetFrame
       documentId={documentId}
@@ -37,7 +48,15 @@ const SheetRow = memo(function SheetRow({ documentId, kind, sheet, index, total 
     >
       {kind === 'note' ? (
         <NoteBody documentId={documentId} sheetId={sheet.id} body={sheet.body} />
-      ) : null}
+      ) : (
+        <TodoBody
+          documentId={documentId}
+          sheetId={sheet.id}
+          items={sheet.items}
+          textSize={textSize}
+          textWeight={textWeight}
+        />
+      )}
     </SheetFrame>
   )
 })
@@ -61,7 +80,13 @@ export function WorkspacePage(): React.JSX.Element | null {
     <WorkspaceLayout
       sidebar={<DocumentSidebar activeId={doc.id} onCreated={open} />}
       topStart={<DocumentCrumb kind={doc.kind} title={doc.title} updatedAt={doc.updatedAt} />}
-      topCenter={doc.kind === 'note' ? <MarkdownToolbar /> : null}
+      topCenter={
+        doc.kind === 'note' ? (
+          <MarkdownToolbar />
+        ) : (
+          <TodoToolbar documentId={doc.id} textSize={doc.textSize} textWeight={doc.textWeight} />
+        )
+      }
       topEnd={<DocumentActions id={doc.id} kind={doc.kind} onRemoved={onRemoved} />}
     >
       {doc.sheets.map((sheet, i) => (
@@ -72,6 +97,8 @@ export function WorkspacePage(): React.JSX.Element | null {
           sheet={sheet}
           index={i}
           total={doc.sheets.length}
+          textSize={doc.textSize}
+          textWeight={doc.textWeight}
         />
       ))}
       <AddSheetButton documentId={doc.id} />
