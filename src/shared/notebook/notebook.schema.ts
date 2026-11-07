@@ -11,8 +11,6 @@ export type DocumentKind = z.infer<typeof documentKindSchema>
 export const textWeightSchema = z.enum(['regular', 'semibold', 'bold'])
 export type TextWeight = z.infer<typeof textWeightSchema>
 
-/** Font sizes offered by the to-do toolbar (px). */
-export const TEXT_SIZES = [13, 14, 16, 18, 20, 24] as const
 export const textSizeSchema = z.number().int().min(10).max(40)
 
 const titleSchema = z.string().trim().max(200)

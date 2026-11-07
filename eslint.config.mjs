@@ -20,6 +20,12 @@ const RENDERER_FORBIDDEN_MODULES = [
     message: 'Use tv/cn from @renderer/shared/lib (token-aware tailwind-merge).'
   },
   {
+    name: '@shared/notebook',
+    allowTypeImports: true,
+    message:
+      'Value imports pull zod into the renderer bundle. Use `import type`, or plain values from @shared/notebook/constants.'
+  },
+  {
     name: 'tailwind-merge',
     message: 'Use cn from @renderer/shared/lib (token-aware tailwind-merge).'
   }
