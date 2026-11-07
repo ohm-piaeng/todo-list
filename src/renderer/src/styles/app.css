@@ -40,3 +40,8 @@
     display: none;
   }
 }
+
+/* Keep centered content centered whether or not a scrollbar is showing. */
+@utility scrollbar-stable {
+  scrollbar-gutter: stable both-edges;
+}

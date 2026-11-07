@@ -1,5 +1,7 @@
 export * from './AppMark'
 export * from './Button'
 export * from './Checkbox'
+export * from './Divider'
 export * from './Icon'
+export * from './IconButton'
 export * from './Input'
