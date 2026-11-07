@@ -18,6 +18,8 @@ const twMerge = extendTailwindMerge({
         'selected',
         'canvas',
         'sidebar-selected',
+        'welcome-from',
+        'welcome-to',
         'border',
         'border-strong',
         'fg',
@@ -27,6 +29,7 @@ const twMerge = extendTailwindMerge({
         'brand',
         'brand-deep',
         'brand-soft',
+        'brand-bright',
         'icon-repo',
         'success',
         'success-bg',
@@ -48,6 +51,9 @@ const twMerge = extendTailwindMerge({
         'heading-page',
         'heading-card',
         'title-window',
+        'subtitle',
+        'lead',
+        'h2',
         'body',
         'body-sm',
         'label',
@@ -55,8 +61,10 @@ const twMerge = extendTailwindMerge({
         'badge',
         'mono'
       ],
-      radius: ['xs', 'sm', 'md', 'lg', 'xl', 'pill'],
-      spacing: ['control-sm', 'control-md', 'row', 'sidebar']
+      radius: ['xs', 'sm', 'md', 'lg', 'xl', 'pill', 'mark'],
+      shadow: ['paper', 'card', 'toolbar', 'brand'],
+      spacing: ['control-sm', 'control-md', 'row', 'sidebar', 'topbar'],
+      container: ['paper', 'welcome']
     }
   }
 })

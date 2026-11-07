@@ -17,6 +17,9 @@
   --color-selected: #e4e4e7;
   --color-canvas: #eef4f7;
   --color-sidebar-selected: #f0f0f2;
+  /* welcome background gradient */
+  --color-welcome-from: #f3f8f7;
+  --color-welcome-to: #eef2f7;
   /* borders */
   --color-border: #e5e7eb;
   --color-border-strong: #d1d5db;
@@ -29,6 +32,8 @@
   --color-brand: #14a37f;
   --color-brand-deep: #0e6e8c;
   --color-brand-soft: #ddf3ec;
+  /* app mark gradient start (ends at brand-deep) */
+  --color-brand-bright: #22b07d;
   --color-icon-repo: #3b82f6;
   /* status */
   --color-success: #22c55e;
@@ -54,6 +59,8 @@
   --radius-lg: 8px;
   --radius-xl: 10px;
   --radius-pill: 999px;
+  /* app mark (64px tile) */
+  --radius-mark: 16px;
 
   /* ---- Spacing ----------------------------------------------------------
    * Base unit 4px (Tailwind default) maps 1:1 to design space/1–9:
@@ -64,10 +71,23 @@
   --spacing-control-sm: 24px;
   --spacing-control-md: 32px;
   --spacing-row: 49px;
-  --spacing-sidebar: 292px;
+  /* sidebar frame is 280px in the Desktop screens (variable size/sidebar says 292) */
+  --spacing-sidebar: 280px;
+  --spacing-topbar: 56px;
+
+  /* ---- Containers (max-w-*) ------------------------------------------- */
+  --container-paper: 760px;
+  --container-welcome: 620px;
+
+  /* ---- Shadows ----------------------------------------------------------- */
+  --shadow-*: initial;
+  --shadow-paper: 0 1px 2px rgb(0 0 0 / 0.06), 0 4px 12px rgb(0 0 0 / 0.04);
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.06), 0 6px 16px rgb(0 0 0 / 0.04);
+  --shadow-toolbar: 0 1px 3px rgb(0 0 0 / 0.05);
+  --shadow-brand: 0 10px 24px rgb(14 110 140 / 0.25);
 
   /* ---- Typography ------------------------------------------------------- */
-  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-sans: 'Inter Variable', 'Inter', 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'Cascadia Mono', 'Consolas', ui-monospace, monospace;
 
   --text-*: initial;
@@ -95,6 +115,17 @@
   --text-title-window--font-weight: 600;
 
   /* Body/Default; Body/Medium = text-body font-semibold */
+  /* 16px reading sizes: welcome subtitle (24) and note paragraphs (26) */
+  --text-subtitle: 16px;
+  --text-subtitle--line-height: 24px;
+
+  --text-lead: 16px;
+  --text-lead--line-height: 26px;
+
+  --text-h2: 20px;
+  --text-h2--line-height: 36px;
+  --text-h2--font-weight: 600;
+
   --text-body: 14px;
   --text-body--line-height: 20px;
 
@@ -127,6 +158,8 @@
       --color-selected: #3a3a3c;
       --color-canvas: #111113;
       --color-sidebar-selected: #2c2c2e;
+      --color-welcome-from: #111113;
+      --color-welcome-to: #16161a;
       --color-border: #38383a;
       --color-border-strong: #48484a;
       --color-fg: #f5f5f7;
@@ -135,6 +168,7 @@
       --color-brand: #2bc596;
       --color-brand-deep: #3aa3c2;
       --color-brand-soft: #14a37f33;
+      --color-brand-bright: #2bc596;
       --color-icon-repo: #60a5fa;
       --color-success: #30d158;
       --color-success-bg: #22c55e2e;
