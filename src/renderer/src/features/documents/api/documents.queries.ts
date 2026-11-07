@@ -37,7 +37,12 @@ export function useRemoveDocument(): UseMutationResult<void, Error, number> {
   return useMutation({
     mutationFn: (id: number) => window.api.document.remove(id),
     onSuccess: (_void, id) => {
-      qc.removeQueries({ queryKey: queryKeys.document(id) })
+      // Drop it from the sidebar list right away (the caller picks the next document
+      // from it). The detail query is left to garbage-collect once the workspace
+      // navigates away: removing it while still observed would refetch a deleted row.
+      qc.setQueryData<IDocumentSummary[]>(queryKeys.documents, (list) =>
+        list?.filter((d) => d.id !== id)
+      )
       return qc.invalidateQueries({ queryKey: queryKeys.documents })
     }
   })
