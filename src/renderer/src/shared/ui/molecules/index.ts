@@ -1,3 +1,5 @@
 export * from './Menu'
 export * from './SearchField'
+export * from './SegmentedControl'
+export * from './Select'
 export * from './Toolbar'
