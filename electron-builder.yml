@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: to-do-list
+appId: com.notebook.app
+productName: Notebook
 directories:
   buildResources: build
 files:
@@ -16,7 +16,7 @@ extraResources:
   - from: src/main/db/migrations
     to: migrations
 win:
-  executableName: to-do-list
+  executableName: notebook
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

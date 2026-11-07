@@ -1,7 +1,8 @@
 {
-  "name": "to-do-list",
+  "name": "notebook",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "productName": "Notebook",
+  "description": "Notebook — notes and to-do lists",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
