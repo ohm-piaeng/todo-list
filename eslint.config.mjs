@@ -123,6 +123,7 @@ export default defineConfig(
         { pattern: 'src/main/index.ts', category: 'main-entry' },
         { pattern: `${R}/main.tsx`, category: 'r-entry' },
         { pattern: `${R}/env.d.ts`, category: 'r-entry' },
+        { pattern: 'src/**/*.test.{ts,tsx}', category: 'test' },
         { pattern: 'src/main/features/*/*.repository.ts', category: 'repository' },
         { pattern: 'src/main/features/*/*.service.ts', category: 'service' },
         { pattern: 'src/main/features/*/*.ipc.ts', category: 'ipc' }
@@ -135,6 +136,12 @@ export default defineConfig(
         {
           default: 'disallow',
           policies: [
+            // --- tests may wire any layer of their own process together (e.g. an in-memory DB)
+            {
+              from: { file: { categories: 'test' } },
+              allow: { to: { element: { type: '*' } } }
+            },
+
             // --- shared contracts: depend on nothing local
             {
               from: { element: { type: 'shared' } },
