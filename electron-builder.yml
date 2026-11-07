@@ -11,6 +11,10 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+  - node_modules/better-sqlite3/**
+extraResources:
+  - from: src/main/db/migrations
+    to: migrations
 win:
   executableName: to-do-list
 nsis:
